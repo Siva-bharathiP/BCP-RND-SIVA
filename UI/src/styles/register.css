@@ -1,0 +1,22 @@
+/* register.css */
+
+/* Base styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.container {
+  font-family: 'Times New Roman', Times, serif;
+  width: 400px;
+  height: auto;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .container {
+    width: 90%;
+    margin: auto;
+  }
+}
