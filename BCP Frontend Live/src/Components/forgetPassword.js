@@ -19,7 +19,7 @@ function ForgotPassword() {
   return (
   <div className=" form d-flex justify-content-center align-items-center vh-100 ">
 
-    <Container className="mt-5 shadow p-3 mb-5 bg-body rounded container vh-70 ">
+    <Container className="mt-5 shadow p-3 mb-5 bg-body rounded container vh-70 " id='con'>
       
       <h6 className="text-center mb-4 mt-4 fw-bold">FORGET PASSWORD</h6>
       <Form onSubmit={handleSubmit}>
@@ -46,11 +46,13 @@ function ForgotPassword() {
             Request Resent Link
           </Button>
         </div>
-      </Form>
-    </Container>
-    <div className="text-center mt- ">
-      <Link to="/login">Back to Login</Link>
+        <div className="text-center mt ">
+      <Link to="/login" className='link'>Back to Login</Link>
       </div>
+      </Form>
+      
+    </Container>
+    
     </div>
 
   );

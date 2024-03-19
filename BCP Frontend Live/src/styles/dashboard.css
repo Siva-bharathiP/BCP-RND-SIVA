@@ -1,29 +1,62 @@
+.ml-auto {
+  margin-right: 10px;
+}
+
+.navbar {
+  border-bottom: 1px solid #dee2e6;
+  /* Add a border line to the bottom */
+}
+
+.brand-wrapper > a {
+  color: rgb(7, 106, 7);
+}
+
+.dropdown-basic {
+  background-color: none;
+}
+
+/* .dropdown-toggle {
+  background-color: transparent !important;
+  border: none;
+  color: black;
+} */
+
+.dropdown-toggle,
+.dropdown-menu {
+  min-width: 150px;
+}
 
 .navbar-nav {
-    width: 100%;
-    justify-content: flex-end;
-  }
+  width: 100%;
+  justify-content: flex-end;
+}
 
-  .form-inline {
-    display: flex;
-    gap: 10px; /* Add a gap between the search bar and the upload button */
-  }
-  .brand-wrapper {
-    padding: 0 15px; /* Adjust the padding as needed */
-  }
-  .search-wrapper {
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-icon {
-    margin-right: 10px; /* Adjust the margin as needed */
-  }
+.form-inline {
+  display: flex;
+  gap: 10px;
+  /* Add a gap between the search bar and the upload button */
+}
 
-  /* dashboard.css */
+.brand-wrapper {
+  padding: 0 15px;
+  /* Adjust the padding as needed */
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  margin-right: 10px;
+  /* Adjust the margin as needed */
+}
+
+/* dashboard.css */
 
 .table-container {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); /* Gmail-like box shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  /* Gmail-like box shadow */
 }
 
 .table-container table {
@@ -41,18 +74,29 @@
   background-color: #efeded;
 }
 
-
 .table-container tbody tr:hover {
   background-color: #f0f0f0;
 }
 
-  
-  @media (max-width: 767.98px) {
-    .navbar-nav {
-      flex-direction: column;
-    }
-    .nav-link {
-      padding-right: 0.5rem !important;
-      padding-left: 0.5rem !important;
-    }
+@media (max-width: 767.98px) {
+  .navbar-nav {
+    flex-direction: column;
   }
+
+  .nav-link {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
+  }
+}
+
+
+button {
+  width: 150px;
+  height: 40px; /* Set height for all buttons */
+  margin-left: 20px;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  color: inherit; 
+  background-color: transparent; /* Remove background color change */
+}

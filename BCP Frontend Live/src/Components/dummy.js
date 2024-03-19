@@ -1,4 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router-dom'; // Import useHistory hook
+import { CloudUpload, Trash } from 'react-bootstrap-icons';
+
 import {
   Navbar,
   NavbarBrand,
@@ -14,7 +17,7 @@ import {
   Dropdown
 } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import {
   Grid,
@@ -36,11 +39,10 @@ import '../styles/dashboard.css';
 
 function Dashboard() {
   const [username, setUsername] = useState('');
+  const [editedRow, setEditedRow] = useState(null);
 
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [editedRow, setEditedRow] = useState(null);
-  // const [searchQuery, setSearchQuery] = useState('');
   const [editedValues, setEditedValues] = useState({});
   
   const navigate = useNavigate();
@@ -56,7 +58,6 @@ useEffect(() => {
  
   }
 }, [navigate]);
-
 const onDrop = useCallback(acceptedFiles => {
   acceptedFiles.forEach(file => {
     const reader = new FileReader();
@@ -87,44 +88,56 @@ const onDrop = useCallback(acceptedFiles => {
 }, []);
 
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const filteredData = data.filter(row => {
+    return Object.values(row).some(value =>
+      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
-const filteredData = data.filter(row => {
-  return Object.values(row || {}).some(value =>
-    value && value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-  );
-});
+  const handleSearchChange = e => {
+    setSearchQuery(e.target.value);
+  };
 
+  const handleEdit = (id) => {
+    console.log("Editing row:", id);
+    setEditedValues(prevValues => ({
+      ...prevValues,
+      [id]: { ...data.find(row => row.id === id) }
+    }));
+  };
 
-const handleSearchChange = e => {
-  setSearchQuery(e.target.value);
-};
-
-const handleEdit = (row) => {
-  console.log("Editing row:", row);
-  setEditedRow({ ...row });
-};
-
-const handleSave = () => {
-  console.log("Saving edited row:", editedRow);
-  setData(data.map(row => (row.id === editedRow.id ? editedRow : row)));
-  setEditedRow(null);
-};
-
-const handleCancel = () => {
-  console.log("Canceling edit for row:", editedRow);
-  setEditedRow(null);
-};
-
-const handleInputChange = (e, key) => {
-  const { value } = e.target;
-  console.log("Changing value of", key, "to", value, "for edited row");
-  setEditedRow(prevRow => ({
-    ...prevRow,
-    [key]: value
-  }));
-};
+  const handleSave = (id) => {
+    console.log("Saving edited values for row:", id);
+    setData(data.map(row => (row.id === id ? { ...row, ...editedValues[id] } : row)));
+    setEditedValues(prevValues => {
+      const updatedValues = { ...prevValues };
+      delete updatedValues[id];
+      return updatedValues;
+    });
+  };
+  
+  const handleCancel = (id) => {
+    console.log("Canceling edit for row:", id);
+    setEditedValues(prevValues => {
+      const updatedValues = { ...prevValues };
+      delete updatedValues[id];
+      return updatedValues;
+    });
+  };
+  
+  const handleInputChange = (e, id, key) => {
+    const { value } = e.target;
+    console.log("Changing value of", key, "to", value, "for row:", id);
+    setEditedValues(prevValues => ({
+      ...prevValues,
+      [id]: {
+        ...prevValues[id],
+        [key]: value
+      }
+    }));
+  };
   const handleLogout = () => {
     // Clear user information from local storage
     localStorage.removeItem('isLoggedIn');
@@ -136,6 +149,10 @@ const handleInputChange = (e, key) => {
 
   return (
     <div className="dashboard-container">
+
+
+
+      
       <Navbar bg="light" expand="lg" className="w-100">
     <div className="brand-wrapper">
       <NavbarBrand href="#home"  > BCP Dashboard</NavbarBrand>
@@ -203,65 +220,63 @@ const handleInputChange = (e, key) => {
 
       <br />
       
-      <Container fluid>
-        <Row>
-          <Col>
-            <div className="table-responsive render">
-              {filteredData.length > 0 && (
-                <div className="table-container">
-                  <Grid
-                    rows={filteredData}
-                    columns={Object.keys(filteredData[0] || {}).map(key => ({ name: key, title: key }))}
+      <Container fluid className='render'>
+  <Row>
+    <Col>
+      <div className="table-responsive" style={{ boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+        {filteredData.length > 0 && (
+          <div className="table-container">
+            <Grid
+              rows={filteredData}
+              columns={Object.keys(filteredData[0] || {}).map((key, index) => ({
+                name: key,
+                title: index === 0 ? 'Date' : key // Change the title to 'Date' for the first column
+              }))}
+            >
+              <Table
+                rowComponent={({ row, ...restProps }) => (
+                  <Table.Row
+                    {...restProps}
+                    // Add a unique key to each row
+                    key={row.id}
                   >
-                    <Table
-                      rowComponent={({ row,...restProps }) => (
-                        <Table.Row
-                          {...restProps}
-                          key={row.id}
-                        >
-                          {Object.keys(row).map((key) => (
-                            <Table.Cell
-                              key={key}
-                              column={{ name: key }}
-                            >
-                              {editedRow && editedRow.id === row.id ? (
-                                <FormControl
-                                  type="text"
-                                  value={editedRow[key]}
-                                  onChange={(e) => handleInputChange(e, key)}
-                                />
-                              ) : (
-                                row[key]
-                              )}
-                            </Table.Cell>
-                          ))}
-                          <Table.Cell>
-                            {editedRow && editedRow.id === row.id ? (
-                              <>
-                                <Button variant="success" onClick={handleSave}>
-                                  <FontAwesomeIcon icon={faSave} />
-                                </Button>
-                                <Button variant="danger" onClick={handleCancel}>
-                                  <FontAwesomeIcon icon={faTimes} />
-                                </Button>
-                              </>
-                            ) : (
-                              <Button variant="primary" onClick={() => handleEdit(row)}>
-                                <FontAwesomeIcon icon={faEdit} />
-                              </Button>
-                            )}
-                          </Table.Cell>
-                        </Table.Row>
+                    {Object.keys(row).map((key, index) => (
+                      <Table.Cell
+                        key={key}
+                        column={{ name: key }}
+                      >
+                        {index === 0 && row[key] instanceof Date ? row[key] : index === 0 ? new Date(row[key]).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }) : row[key]}
+                      </Table.Cell>
+                    ))}
+                    <Table.Cell>
+                      {editedValues[row.id] ? (
+                        <>
+                          <Button variant="success" onClick={() => handleSave(row.id)}>
+                            <FontAwesomeIcon icon={faSave} />
+                          </Button>
+                          <Button variant="danger" onClick={() => handleCancel(row.id)}>
+                            <FontAwesomeIcon icon={faTimes} />
+                          </Button>
+                        </>
+                      ) : (
+                        <Button variant="primary" onClick={() => handleEdit(row.id)}>
+                          <FontAwesomeIcon icon={faEdit} />
+                        </Button>
                       )}
-                    />
-                    <TableHeaderRow />
-                  </Grid>
-                </div>
-              )}
-            </div>
-          </Col>
-        </Row>
-      </Container>
+                    </Table.Cell>
+                  </Table.Row>
+                )}
+              />
+
+              <TableHeaderRow />
+            </Grid>
+          </div>
+        )}
+      </div>
+    </Col>
+  </Row>
+</Container>
+
     </div>
   );
 }
