@@ -5,9 +5,14 @@ import Register from './Components/register';
 import Dashboard from './Components/dashboard';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Components/Login';
+import React, { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    document.title = 'BCP'; // Set the title to 'Dashboard'
+  }, []);
   return (
+    
     <Router>
     <Routes>
       <Route path="/forgot-password" element={<ForgotPassword />} />

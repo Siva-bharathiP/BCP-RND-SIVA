@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+
+}
+
+.con {
+  width: 360px;
+  height: 420px;
+  font-family: "Montserrat", sans-serif;
+}
+
+@media (max-width: 576px) {
+  .con {
+    width: 90%;
+    margin: auto;
+  }
+}
+.form-control {
+  border: 2px solid #333; 
+  border-radius: 0.25rem; 
+}
+
+.text-left a {
+  text-decoration: none;
+  color: black;
+  font-weight:600;
+}
+
+
+.display-6 {
+  font-size: 1.75rem; 
+  font-weight: 400;
+  font-family: "Plus Jakarta Sans", sans-serif;
+
+}
+
+.signup {
+  padding-top: 25px;
+  font-size:medium;
+  font-family: "Montserrat", sans-serif;
+
+}
+.signup a{
+  text-decoration: none;
+  color: green;
+  font-family: "Montserrat", sans-serif;
+
+}
+
+
+.btn-success{
+
+   width: 250px;
+}
+p{
+  text-align: center;
+  font-size:smaller;
+  color: gray;
+}
+.btn-container{
+  padding-top: 3px;
+}
+
+.text-right{
+  font-weight: 500;
+
+  
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
+

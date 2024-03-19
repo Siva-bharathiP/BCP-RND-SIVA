@@ -12,7 +12,6 @@ function ForgotPassword() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // You can handle the submission logic here, such as sending a reset password email
     console.log('Submit email:', email);
     navigate('/reset-password');
   };
@@ -22,7 +21,7 @@ function ForgotPassword() {
 
     <Container className="mt-5 shadow p-3 mb-5 bg-body rounded container vh-70 ">
       
-      <h6 className="text-center mb-4 mt-4 fw-bold">Forget Password</h6>
+      <h6 className="text-center mb-4 mt-4 fw-bold">FORGET PASSWORD</h6>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formBasicEmail">
           <TextField 
@@ -43,7 +42,7 @@ function ForgotPassword() {
           </Col>
         </Row>
         <div className="btn-container mt-4 mb-3">
-          <Button type="submit" className="btn-success">
+          <Button type="submit" className="btn btn-success  rounded-pill">
             Request Resent Link
           </Button>
         </div>

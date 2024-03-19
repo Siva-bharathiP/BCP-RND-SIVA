@@ -1,0 +1,52 @@
+
+.input-field {
+  border: 1px solid #312d2d;
+  /* transition: border-color 0.3s ease-in-out; */
+}
+
+.input-field:focus {
+
+  border-color: transparent; /* Set border color to transparent */
+}
+.input-field:hover{
+  border-color: transparent; /* Set border color to transparent */
+
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  /* font-family: 'Times New Roman', Times, serif; */
+  font-family: "Montserrat", sans-serif;
+  
+}
+
+.container {
+  font-family: "Montserrat", sans-serif;
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 576px) {
+  .container {
+    width: 90%;
+    margin: auto;
+  }
+}
+
+
+.signup{
+  font-size:larger;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 0px;
+
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
